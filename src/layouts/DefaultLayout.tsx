@@ -1,25 +1,21 @@
 import * as React from 'react';
 import {
   Box,
-  Drawer,
-  AppBar,
+  Breadcrumbs,
+  Card,
+  CardContent,
   CssBaseline,
-  Toolbar,
+  Drawer,
+  Icon,
   List,
-  Typography,
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  IconButton,
-  Icon,
-  Menu,
-  MenuList,
-  MenuItem,
-  Card,
-  CardContent,
-  Breadcrumbs,
+  Toolbar,
+  Typography,
 } from '@mui/material';
+import { Header, Footer } from '@/components/organisms';
 
 interface Props {
   children: React.ReactNode;
@@ -42,7 +38,7 @@ const DefaultLayout = (props: Props) => {
     setAnchorEl(null);
   };
 
-  const handleDrawerToggle = () => {
+  const handleDrawer = () => {
     setOpen(!open);
   };
 
@@ -70,64 +66,17 @@ const DefaultLayout = (props: Props) => {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar
-        position="fixed"
-        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
-      >
-        <Toolbar variant="dense">
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2 }}
-          >
-            <Icon>menu</Icon>
-          </IconButton>
-          <Typography variant="subtitle1" component="div" sx={{ flexGrow: 1 }}>
-            RentalMami App
-          </Typography>
-          <Typography variant="subtitle2">admin</Typography>
-          <IconButton
-            size="large"
-            aria-label="account of current user"
-            aria-controls="menu-appbar"
-            aria-haspopup="true"
-            onClick={handleMenu}
-            color="inherit"
-          >
-            <Icon>account_circle</Icon>
-          </IconButton>
-          <Menu
-            id="menu-appbar"
-            anchorEl={anchorEl}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'left',
-            }}
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
-            sx={{ p: 0 }}
-          >
-            <Box sx={{ width: 160 }}>
-              <MenuList dense>
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
-              </MenuList>
-            </Box>
-          </Menu>
-        </Toolbar>
-      </AppBar>
+      <Header
+        handleDrawer={handleDrawer}
+        anchorEl={anchorEl}
+        handleMenu={handleMenu}
+        handleClose={handleClose}
+      />
       <Drawer
         container={container}
         variant="temporary"
         open={open}
-        onClose={handleDrawerToggle}
+        onClose={handleDrawer}
         ModalProps={{
           keepMounted: true,
         }}
@@ -165,11 +114,7 @@ const DefaultLayout = (props: Props) => {
         <Card>
           <CardContent>{children}</CardContent>
         </Card>
-        <footer>
-          <Typography variant="body2" color="inherit" align="right">
-            &copy; AyisDev. {new Date().getFullYear()}
-          </Typography>
-        </footer>
+        <Footer />
       </Box>
     </Box>
   );
