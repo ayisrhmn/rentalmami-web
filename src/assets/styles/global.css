@@ -2,3 +2,11 @@ body {
   font-family: 'Roboto', sans-serif;
   background-color: #f2f4f8 !important;
 }
+
+footer {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  padding: 16px;
+}

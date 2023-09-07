@@ -1,17 +1,25 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import AppBar from '@mui/material/AppBar';
-import CssBaseline from '@mui/material/CssBaseline';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import IconButton from '@mui/material/IconButton';
-import Icon from '@mui/material/Icon';
+import {
+  Box,
+  Drawer,
+  AppBar,
+  CssBaseline,
+  Toolbar,
+  List,
+  Typography,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  IconButton,
+  Icon,
+  Menu,
+  MenuList,
+  MenuItem,
+  Card,
+  CardContent,
+  Breadcrumbs,
+} from '@mui/material';
 
 interface Props {
   children: React.ReactNode;
@@ -24,6 +32,15 @@ const drawerWidthOpen = 200;
 const DefaultLayout = (props: Props) => {
   const { children, window } = props;
   const [open, setOpen] = React.useState(false);
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
+  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const handleDrawerToggle = () => {
     setOpen(!open);
@@ -31,15 +48,15 @@ const DefaultLayout = (props: Props) => {
 
   const drawer = (
     <>
-      <Toolbar />
+      <Toolbar variant="dense" />
       <Box sx={{ overflowY: 'auto', overflowX: 'hidden' }}>
-        <List>
+        <List dense>
           <ListItem disablePadding>
             <ListItemButton>
               <ListItemIcon>
-                <Icon>home</Icon>
+                <Icon>dashboard</Icon>
               </ListItemIcon>
-              <ListItemText primary={'Home'} />
+              <ListItemText primary={'Dashboard'} />
             </ListItemButton>
           </ListItem>
         </List>
@@ -57,7 +74,7 @@ const DefaultLayout = (props: Props) => {
         position="fixed"
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
       >
-        <Toolbar>
+        <Toolbar variant="dense">
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -67,9 +84,43 @@ const DefaultLayout = (props: Props) => {
           >
             <Icon>menu</Icon>
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
+          <Typography variant="subtitle1" component="div" sx={{ flexGrow: 1 }}>
             RentalMami App
           </Typography>
+          <Typography variant="subtitle2">admin</Typography>
+          <IconButton
+            size="large"
+            aria-label="account of current user"
+            aria-controls="menu-appbar"
+            aria-haspopup="true"
+            onClick={handleMenu}
+            color="inherit"
+          >
+            <Icon>account_circle</Icon>
+          </IconButton>
+          <Menu
+            id="menu-appbar"
+            anchorEl={anchorEl}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'left',
+            }}
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+            sx={{ p: 0 }}
+          >
+            <Box sx={{ width: 160 }}>
+              <MenuList dense>
+                <MenuItem onClick={handleClose}>Profile</MenuItem>
+                <MenuItem onClick={handleClose}>Logout</MenuItem>
+              </MenuList>
+            </Box>
+          </Menu>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -104,9 +155,21 @@ const DefaultLayout = (props: Props) => {
       >
         {drawer}
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box component="main" sx={{ flexGrow: 1, px: 3 }}>
         <Toolbar />
-        {children}
+        <Breadcrumbs aria-label="breadcrumb" sx={{ mb: 2 }}>
+          <Typography variant="body2" color="text.primary">
+            Dashboard
+          </Typography>
+        </Breadcrumbs>
+        <Card>
+          <CardContent>{children}</CardContent>
+        </Card>
+        <footer>
+          <Typography variant="body2" color="inherit" align="right">
+            &copy; AyisDev. {new Date().getFullYear()}
+          </Typography>
+        </footer>
       </Box>
     </Box>
   );
